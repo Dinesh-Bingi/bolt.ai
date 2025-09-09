@@ -253,7 +253,8 @@ export default function Landing({ onGetStarted }: LandingProps) {
       {/* Footer */}
       <footer className="relative z-10 py-12 px-6 border-t border-white/10">
         <div className="max-w-7xl mx-auto text-center text-gray-400">
-          <p>&copy; 2025 Legacy.ai. Preserving memories for eternity. All rights reserved to Unicx.</p>
+          <p>&copy; 2024 Legacy.ai. Preserving memories for eternity</p>
+          <p>All rights reserved to Unickx</p>
         </div>
       </footer>
 
