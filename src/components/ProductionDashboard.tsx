@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Upload, MessageCircle, Settings, User, Crown, Mic, CreditCard, 
@@ -8,7 +9,6 @@ import GlassCard from './ui/GlassCard';
 import Button from './ui/Button';
 import StepperForm from './StepperForm';
 import HolographicAvatar from './HolographicAvatar';
-import ParticleBackground from './ParticleBackground';
 import UploadZone from './UploadZone';
 import SubscriptionManager from './SubscriptionManager';
 import VideoGenerator from './VideoGenerator';
@@ -35,14 +35,9 @@ export default function ProductionDashboard({ onNavigateToMemorial }: Production
     memoryCompletion: 0
   });
 
-  useEffect(() => {
-    if (user) {
-      loadDashboardData();
-    }
-  }, [user]);
-
-  const loadDashboardData = async () => {
+  const loadDashboardData = useCallback(async () => {
     if (!user) return;
+
 
     try {
       // Load user's memorial
@@ -61,9 +56,15 @@ export default function ProductionDashboard({ onNavigateToMemorial }: Production
     } catch (error) {
       console.error('Failed to load dashboard data:', error);
     }
-  };
+  }, [user, memories.length]);
 
-  const handleStoryComplete = async (answers: Record<string, string>) => {
+  useEffect(() => {
+    if (user) {
+      loadDashboardData();
+    }
+  }, [user, loadDashboardData]);
+
+  const handleStoryComplete = useCallback(async (answers: Record<string, string>) => {
     if (!user) return;
     
     try {
@@ -84,7 +85,7 @@ export default function ProductionDashboard({ onNavigateToMemorial }: Production
     } catch (error) {
       console.error('Failed to complete story:', error);
     }
-  };
+  }, [user, saveMemories, memorial, loadDashboardData]);
 
   const handleVoiceUpload = async (files: File[]) => {
     if (!user) return;
@@ -135,7 +136,7 @@ export default function ProductionDashboard({ onNavigateToMemorial }: Production
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 text-white">
-      <ParticleBackground />
+      {/* Remove ParticleBackground from dashboard for better performance */}
       
       {/* Header */}
       <header className="relative z-10 p-6 border-b border-white/10 backdrop-blur-sm bg-black/20">

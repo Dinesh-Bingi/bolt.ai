@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-export default function ParticleBackground() {
+const ParticleBackground = React.memo(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -13,17 +13,10 @@ export default function ParticleBackground() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const particles: Array<{
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      opacity: number;
-      size: number;
-    }> = [];
+    const particles = [];
 
-    // Create particles
-    for (let i = 0; i < 100; i++) {
+    // Reduce particles for better performance
+    for (let i = 0; i < 30; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
@@ -57,7 +50,7 @@ export default function ParticleBackground() {
           const dy = particles[j].y - particle.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 100) {
+          if (distance < 80) {
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -85,8 +78,12 @@ export default function ParticleBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none opacity-30"
+      className="fixed inset-0 pointer-events-none opacity-20"
       style={{ zIndex: -1 }}
     />
   );
-}
+});
+
+ParticleBackground.displayName = 'ParticleBackground';
+
+export default ParticleBackground;

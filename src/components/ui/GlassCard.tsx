@@ -7,7 +7,7 @@ interface GlassCardProps {
   hover?: boolean;
 }
 
-export default function GlassCard({ children, className = '', hover = false }: GlassCardProps) {
+const GlassCard = React.memo(({ children, className = '', hover = false }: GlassCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -23,4 +23,8 @@ export default function GlassCard({ children, className = '', hover = false }: G
       {children}
     </motion.div>
   );
-}
+});
+
+GlassCard.displayName = 'GlassCard';
+
+export default GlassCard;

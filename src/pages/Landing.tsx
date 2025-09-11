@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
+import { lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Shield, Heart, Infinity, Star, CreditCard } from 'lucide-react';
 import Button from '../components/ui/Button';
 import GlassCard from '../components/ui/GlassCard';
-import ParticleBackground from '../components/ParticleBackground';
 import PricingCard from '../components/PricingCard';
 import AuthModal from '../components/AuthModal';
 import { useAuth } from '../hooks/useAuth';
 import { usePayments } from '../hooks/usePayments';
 import PaymentModal from '../components/PaymentModal';
+
+// Lazy load heavy components
+const ParticleBackground = lazy(() => import('../components/ParticleBackground'));
 
 interface LandingProps {
   onGetStarted: () => void;
@@ -58,7 +61,9 @@ export default function Landing({ onGetStarted }: LandingProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 text-white overflow-hidden">
-      <ParticleBackground />
+      <Suspense fallback={null}>
+        <ParticleBackground />
+      </Suspense>
       
       {/* Header */}
       <motion.header 
