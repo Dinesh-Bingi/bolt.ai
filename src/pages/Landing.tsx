@@ -6,6 +6,7 @@ import Button from '../components/ui/Button';
 import GlassCard from '../components/ui/GlassCard';
 import PricingCard from '../components/PricingCard';
 import AuthModal from '../components/AuthModal';
+import UserMenu from '../components/UserMenu';
 import { useAuth } from '../hooks/useAuth';
 import { usePayments } from '../hooks/usePayments';
 import PaymentModal from '../components/PaymentModal';
@@ -19,7 +20,7 @@ interface LandingProps {
 
 export default function Landing({ onGetStarted }: LandingProps) {
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signup');
+  const [authMode, setAuthMode] = useState<'signin' | 'signup' | 'forgot-password'>('signup');
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string>('');
   
@@ -80,7 +81,10 @@ export default function Landing({ onGetStarted }: LandingProps) {
           </div>
           <div className="space-x-4">
             {isAuthenticated ? (
-              <Button onClick={onGetStarted}>Dashboard</Button>
+              <div className="flex items-center space-x-4">
+                <Button onClick={onGetStarted}>Dashboard</Button>
+                <UserMenu />
+              </div>
             ) : (
               <>
                 <Button variant="ghost" onClick={handleSignIn}>Sign In</Button>
